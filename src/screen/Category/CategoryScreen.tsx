@@ -1,22 +1,24 @@
 import { StyleSheet, View } from "react-native";
 import { Button, Divider, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewForm } from "../../store/actions/itemActions";
+import { addNewForm } from "../../store/actions/formActions";
 import FormCard from "../../components/FormCard";
 import { FlatList } from "react-native-gesture-handler";
+import { nanoid } from "@reduxjs/toolkit";
 
 const CategoryScreen = ({ route }) => {
+  const formId = nanoid();
   const dispatch = useDispatch();
   const { itemId: categoryId } = route.params;
   const { items } = useSelector((state) => state.itemList);
-  console.log({ items });
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text variant="headlineSmall">{route.name}</Text>
         <Button
           mode="contained"
-          onPress={() => dispatch(addNewForm(categoryId))}
+          onPress={() => dispatch(addNewForm({ categoryId, formId }))}
         >
           Add new item
         </Button>
@@ -25,11 +27,7 @@ const CategoryScreen = ({ route }) => {
       <FlatList
         data={items.filter((item) => item.categoryId === categoryId)}
         renderItem={({ item }) => (
-          <FormCard
-            formId={item.formId}
-            label={item.label}
-            type={item.fieldType}
-          />
+          <FormCard formTitle={item.formTitle} fields={item.fields} />
         )}
         keyExtractor={(item) => item.id}
       />

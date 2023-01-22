@@ -23,7 +23,7 @@ const ManageCategoriesScreen = () => {
     }
     return;
   };
-
+  console.log({ categoryList });
   return (
     <>
       <View style={styles.listContainer}>
