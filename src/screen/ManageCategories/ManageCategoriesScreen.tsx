@@ -1,12 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { FAB, Text } from "react-native-paper";
 
-import {
-  createNewCategory,
-  getCategoryList,
-} from "../../store/actions/categoryActions";
+import { createNewCategory } from "../../store/actions/categoryActions";
 
 import CategoryCard from "../../components/CategoryCard";
 
@@ -18,12 +15,14 @@ const ManageCategoriesScreen = () => {
   );
 
   const scrollToEnd = () => {
-    if (categoryList.length > 2) {
-      flatlistRef.current.scrollToEnd();
-    }
-    return;
+    setTimeout(() => {
+      if (categoryList.length > 1) {
+        flatlistRef.current.scrollToEnd();
+      }
+      return;
+    }, 2000);
   };
-  console.log({ categoryList });
+
   return (
     <>
       <View style={styles.listContainer}>
@@ -56,13 +55,13 @@ const ManageCategoriesScreen = () => {
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 4,
   },
   fab: {
-    position: "absolute",
     margin: 16,
-    right: 5,
-    bottom: 24,
+    bottom: 5,
+    alignSelf: "stretch",
   },
 });
 

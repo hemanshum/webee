@@ -11,7 +11,7 @@ import {
 
 import { addLabelName, removeField } from "../store/actions/fieldActions";
 
-const FieldCard = ({ type, id, label }) => {
+const FieldCard = ({ categoryId, type, id, label }) => {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
   return (
@@ -21,7 +21,7 @@ const FieldCard = ({ type, id, label }) => {
         value={text === "" ? label : text}
         onChangeText={(text) => {
           setText(text);
-          dispatch(addLabelName({ id, name: text }));
+          dispatch(addLabelName({ id, name: text, categoryId }));
         }}
         mode="outlined"
         keyboardType="default"
@@ -33,7 +33,7 @@ const FieldCard = ({ type, id, label }) => {
         icon="close-octagon-outline"
         iconColor={MD3Colors.error50}
         size={20}
-        onPress={() => dispatch(removeField(id))}
+        onPress={() => dispatch(removeField({ id, categoryId }))}
       />
     </View>
   );
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginVertical: 4,
   },
   input: {
     width: "50%",

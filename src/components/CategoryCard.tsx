@@ -47,6 +47,7 @@ const CategoryCard = ({ name, id }: Props) => {
         mode="outlined"
         keyboardType="default"
         autoFocus
+        style={styles.input}
       />
       {fieldList.map((item) => {
         if (item.categoryId === id) {
@@ -56,6 +57,7 @@ const CategoryCard = ({ name, id }: Props) => {
               type={item.fieldType}
               id={item.id}
               label={item.label}
+              categoryId={item.categoryId}
             />
           );
         }
@@ -90,13 +92,13 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     padding: 16,
   },
+  input: {
+    marginVertical: 4,
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 16,
-  },
-  titleBtn: {
-    marginTop: 8,
   },
 });
 

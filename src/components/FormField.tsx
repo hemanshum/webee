@@ -26,22 +26,22 @@ const FormField = ({ fieldType, label }) => {
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
-  console.log(selectedDate);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   if (fieldType === "Text") {
     return (
-      <TextInput
-        label={label}
-        mode="outlined"
-        value={text}
-        onChangeText={(text) => setText(text)}
-        style={styles.input}
-      />
+      <View style={styles.spacer}>
+        <TextInput
+          label={label}
+          mode="outlined"
+          value={text}
+          onChangeText={(text) => setText(text)}
+        />
+      </View>
     );
   } else if (fieldType === "Checkbox") {
     return (
-      <View style={styles.switchContainer}>
+      <View style={[styles.spacer, styles.switchContainer]}>
         <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
         <Text style={{ marginLeft: 8 }} variant="labelSmall">
           {label}
@@ -50,7 +50,7 @@ const FormField = ({ fieldType, label }) => {
     );
   } else if (fieldType === "Date") {
     return (
-      <>
+      <View style={styles.spacer}>
         <Button mode="contained-tonal" onPress={() => showModal()}>
           {label} - {selectedDate}
         </Button>
@@ -69,23 +69,25 @@ const FormField = ({ fieldType, label }) => {
             />
           </Modal>
         </Portal>
-      </>
+      </View>
     );
   }
   //Field type number
   return (
-    <TextInput
-      label={label}
-      mode="outlined"
-      value={text}
-      onChangeText={(text) => setText(text)}
-      style={styles.input}
-    />
+    <View style={styles.spacer}>
+      <TextInput
+        label={label}
+        mode="outlined"
+        value={text}
+        onChangeText={(text) => setText(text)}
+        style={styles.input}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
+  spacer: {
     marginVertical: 4,
   },
   datePickerStyle: {

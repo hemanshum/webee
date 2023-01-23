@@ -11,9 +11,12 @@ export const itemSlice = createSlice({
     addNewItem: (state, action) => {
       state.items = action.payload;
     },
+    hydrateItems: (state, action) => {
+      state.items = action.payload;
+    },
   },
 });
 
-export const { addNewItem } = itemSlice.actions;
+export const { addNewItem, hydrateItems } = itemSlice.actions;
 
 export default itemSlice.reducer;

@@ -5,7 +5,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import DashboardScreen from "../screen/Dashboard/DashboardScreen";
 import ManageCategoriesScreen from "../screen/ManageCategories/ManageCategoriesScreen";
 import CategoryScreen from "../screen/Category/CategoryScreen";
-import { ScrollView } from "react-native";
 
 const Drawer = createDrawerNavigator();
 
@@ -19,7 +18,7 @@ const Navigation = () => {
           return (
             <Drawer.Screen
               key={item.id}
-              name={item.name}
+              name={(item.name ||= "Untitled Nav")}
               component={CategoryScreen}
               initialParams={{ itemId: item.id }}
             />
