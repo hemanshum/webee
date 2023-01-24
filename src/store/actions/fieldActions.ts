@@ -5,7 +5,7 @@ import {
   getFields,
   removeAField,
 } from "../slices/FieldSlice";
-import { hydrateItems } from "../slices/ItemSlice";
+import { hydrateItems } from "../slices/FormSlice";
 
 export const addNewField = (data) => async (dispatch) => {
   try {
@@ -13,14 +13,6 @@ export const addNewField = (data) => async (dispatch) => {
     const fieldList = jsonValue != null ? JSON.parse(jsonValue) : [];
     const newFieldList = [...fieldList, data];
     await AsyncStorage.setItem("@field_list", JSON.stringify(newFieldList));
-
-    // {
-    //   categoryId: id,
-    //   id: nanoid(),
-    //   fieldType: field,
-    // }
-    // {categoryId: 'UNlKNnTF3yFNoFkcBKvk8', id: 'DZtqjDivIIQL-VPu7E-Y3', fieldType: 'Text', label: 'Color', titleLabel: false}
-    // console.log({ data });
     const jsonFormValue = await AsyncStorage.getItem("@form_list");
     const formList = jsonValue != null ? JSON.parse(jsonFormValue) : [];
 

@@ -10,8 +10,9 @@ const CategoryScreen = ({ route }) => {
   const formId = nanoid();
   const dispatch = useDispatch();
   const { itemId: categoryId } = route.params;
-  const { items } = useSelector((state) => state.itemList);
+  const { items: formList } = useSelector((state) => state.formList);
 
+  console.log({ formList });
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -25,11 +26,17 @@ const CategoryScreen = ({ route }) => {
       </View>
       <Divider />
       <FlatList
-        data={items.filter((item) => item.categoryId === categoryId)}
+        data={formList.filter((item) => item.categoryId === categoryId)}
         renderItem={({ item }) => (
-          <FormCard formTitle={item.formTitle} fields={item.fields} />
+          <FormCard
+            formTitle={item.formTitle}
+            fields={item.fields}
+            formId={item.id}
+            categoryId={categoryId}
+          />
         )}
         keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.flatList}
       />
     </View>
   );
@@ -44,6 +51,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 8,
+  },
+  flatList: {
+    paddingBottom: 80,
   },
 });
 

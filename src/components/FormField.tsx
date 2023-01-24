@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   Button,
@@ -10,6 +10,8 @@ import {
 } from "react-native-paper";
 // import DatePicker from "react-native-datepicker";
 import DatePicker from "react-native-modern-datepicker";
+import { useDispatch, useSelector } from "react-redux";
+import { textField } from "../store/actions/formActions";
 
 const date = new Date();
 
@@ -17,16 +19,36 @@ let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
 
-const FormField = ({ fieldType, label }) => {
+const FormField = ({ fieldType, label, fieldId, formId }) => {
+  const dispatch = useDispatch();
   const [text, setText] = useState("");
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [selectedDate, setSelectedDate] = useState(`${year}/${month}/${day}`);
   const [visible, setVisible] = React.useState(false);
+  const [valueText, setValueText] = useState("");
+  const { items } = useSelector((state) => state.formList);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
+  useEffect(() => {
+    getFieldValue();
+  }, [items]);
+
+  const getFieldValue = () => {
+    items.map((form) => {
+      if (form.id === formId) {
+        form.fields.map((field) => {
+          if (field.id === fieldId) {
+            console.log("getFieldValue", field.fieldData);
+            setValueText(field.fieldData);
+          }
+        });
+      }
+    });
+  };
 
   if (fieldType === "Text") {
     return (
@@ -34,8 +56,11 @@ const FormField = ({ fieldType, label }) => {
         <TextInput
           label={label}
           mode="outlined"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={text === "" ? valueText : text}
+          onChangeText={(text) => {
+            setText(text);
+            dispatch(textField({ text, formId, fieldId }));
+          }}
         />
       </View>
     );
@@ -50,10 +75,12 @@ const FormField = ({ fieldType, label }) => {
     );
   } else if (fieldType === "Date") {
     return (
-      <View style={styles.spacer}>
-        <Button mode="contained-tonal" onPress={() => showModal()}>
-          {label} - {selectedDate}
-        </Button>
+      <>
+        <View style={styles.spacer}>
+          <Button mode="contained-tonal" onPress={() => showModal()}>
+            {label} - {selectedDate}
+          </Button>
+        </View>
         <Portal>
           <Modal
             visible={visible}
@@ -69,7 +96,7 @@ const FormField = ({ fieldType, label }) => {
             />
           </Modal>
         </Portal>
-      </View>
+      </>
     );
   }
   //Field type number

@@ -4,7 +4,7 @@ const initialState = {
   items: [],
 };
 
-export const itemSlice = createSlice({
+export const FormSlice = createSlice({
   name: "categoryList",
   initialState,
   reducers: {
@@ -17,6 +17,6 @@ export const itemSlice = createSlice({
   },
 });
 
-export const { addNewItem, hydrateItems } = itemSlice.actions;
+export const { addNewItem, hydrateItems } = FormSlice.actions;
 
-export default itemSlice.reducer;
+export default FormSlice.reducer;
