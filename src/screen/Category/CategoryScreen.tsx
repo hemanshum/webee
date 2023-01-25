@@ -12,7 +12,6 @@ const CategoryScreen = ({ route }) => {
   const { itemId: categoryId } = route.params;
   const { items: formList } = useSelector((state) => state.formList);
 
-  console.log({ formList });
   return (
     <View style={styles.container}>
       <View style={styles.header}>

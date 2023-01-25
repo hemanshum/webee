@@ -99,7 +99,6 @@ export const removeField =
         }
         return item;
       });
-      console.log({ newFormList });
       await AsyncStorage.setItem("@form_list", JSON.stringify(newFormList));
 
       dispatch(removeAField(id));

@@ -25,7 +25,7 @@ export const addNewForm =
       const jsonValue = await AsyncStorage.getItem("@form_list");
       const formList = jsonValue != null ? JSON.parse(jsonValue) : [];
       const newFormList = [...formList, newForm];
-      // console.log({ newFormList });
+
       await AsyncStorage.setItem("@form_list", JSON.stringify(newFormList));
       dispatch(addNewItem(newFormList));
     } catch (e) {
@@ -55,10 +55,9 @@ export const removeForm = (formId) => async (dispatch) => {
   }
 };
 
-export const textField =
+export const textinputField =
   ({ text, formId, fieldId }) =>
   async (dispatch) => {
-    console.log({ text, formId, fieldId });
     try {
       const jsonValue = await AsyncStorage.getItem("@form_list");
       const formList = jsonValue != null ? JSON.parse(jsonValue) : [];

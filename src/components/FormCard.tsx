@@ -7,7 +7,7 @@ import { removeForm } from "../store/actions/formActions";
 
 const FormCard = ({ formTitle, fields, formId }) => {
   const dispatch = useDispatch();
-  console.log(formId);
+
   return (
     <View style={styles.container}>
       <Text variant="titleMedium">

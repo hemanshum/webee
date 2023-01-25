@@ -11,7 +11,7 @@ import {
 // import DatePicker from "react-native-datepicker";
 import DatePicker from "react-native-modern-datepicker";
 import { useDispatch, useSelector } from "react-redux";
-import { textField } from "../store/actions/formActions";
+import { textinputField } from "../store/actions/formActions";
 
 const date = new Date();
 
@@ -31,7 +31,10 @@ const FormField = ({ fieldType, label, fieldId, formId }) => {
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const onToggleSwitch = () => {
+    setIsSwitchOn(!isSwitchOn);
+    dispatch(textinputField({ text: !isSwitchOn, formId, fieldId }));
+  };
 
   useEffect(() => {
     getFieldValue();
@@ -42,8 +45,13 @@ const FormField = ({ fieldType, label, fieldId, formId }) => {
       if (form.id === formId) {
         form.fields.map((field) => {
           if (field.id === fieldId) {
-            console.log("getFieldValue", field.fieldData);
-            setValueText(field.fieldData);
+            if (fieldType === "Date") {
+              setSelectedDate(field.fieldData);
+            } else if (fieldType === "Checkbox") {
+              setIsSwitchOn(field.fieldData);
+            } else {
+              setValueText(field.fieldData);
+            }
           }
         });
       }
@@ -59,7 +67,7 @@ const FormField = ({ fieldType, label, fieldId, formId }) => {
           value={text === "" ? valueText : text}
           onChangeText={(text) => {
             setText(text);
-            dispatch(textField({ text, formId, fieldId }));
+            dispatch(textinputField({ text, formId, fieldId }));
           }}
         />
       </View>
@@ -90,6 +98,7 @@ const FormField = ({ fieldType, label, fieldId, formId }) => {
             <DatePicker
               onSelectedChange={(date) => {
                 setSelectedDate(date);
+                dispatch(textinputField({ text: date, formId, fieldId }));
                 hideModal();
               }}
               mode="calendar"
@@ -105,9 +114,12 @@ const FormField = ({ fieldType, label, fieldId, formId }) => {
       <TextInput
         label={label}
         mode="outlined"
-        value={text}
-        onChangeText={(text) => setText(text)}
-        style={styles.input}
+        keyboardType="number-pad"
+        value={text === "" ? valueText : text}
+        onChangeText={(text) => {
+          setText(text);
+          dispatch(textinputField({ text, formId, fieldId }));
+        }}
       />
     </View>
   );
